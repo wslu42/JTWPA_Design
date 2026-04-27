@@ -6,7 +6,6 @@ from gdsfactory.cross_section import ComponentAlongPath
 
 from jtwpa_design.cells.components.rectangle import rectangle
 from jtwpa_design.cells.paths.jtwpa_path import jtwpa_path
-from jtwpa_design.config import PATH
 from jtwpa_design.pdk import get_pdk
 from jtwpa_design.tech import LAYER
 
@@ -132,7 +131,7 @@ for item in sorted_arc2:
 for item in spiral1[::-1]:
     arranged_points.append(item)
 
-np.save(PATH.npy / "arranged_capacitor_points.npy", arranged_points)
-np.save(PATH.npy / "JJ_arch_spiral.npy", JJ_arch_spiral)
-np.save(PATH.npy / "JJ_arc1.npy", JJ_arc1)
-np.save(PATH.npy / "JJ_arc2.npy", JJ_arc2)
+np.save("jtwpa_design/cells/chips/npy/arranged_capacitor_points.npy", arranged_points)
+np.save("jtwpa_design/cells/chips/npy/JJ_arch_spiral.npy", JJ_arch_spiral)
+np.save("jtwpa_design/cells/chips/npy/JJ_arc1.npy", JJ_arc1)
+np.save("jtwpa_design/cells/chips/npy/JJ_arc2.npy", JJ_arc2)

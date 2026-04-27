@@ -2,7 +2,6 @@ import gdsfactory as gf
 import numpy as np
 from gdsfactory.cross_section import ComponentAlongPath
 
-from jtwpa_design.cells.components.dicing import dicing
 from jtwpa_design.cells.components.JJ import JJ1, JJ2
 from jtwpa_design.cells.components.marker import four_marker
 from jtwpa_design.cells.components.open_stub_capacitor import open_stub_capacitor
@@ -10,7 +9,6 @@ from jtwpa_design.cells.components.rectangle import rectangle
 from jtwpa_design.cells.components.text_id import text_id
 from jtwpa_design.cells.components.twpa_launcher import twpa_launcher
 from jtwpa_design.cells.paths.jtwpa_path import jtwpa_path
-from jtwpa_design.config import PATH
 from jtwpa_design.helpers.generate_bridge_paths import create_bridge_paths
 from jtwpa_design.helpers.tukey_window import tukey_window
 from jtwpa_design.parameters.chips.spiral import SpiralParams
@@ -245,7 +243,9 @@ def twpa_cpw() -> gf.Component:
 
 
 def spiral_bridges():
-    capacitor_points = np.load(PATH.npy / "arranged_capacitor_points.npy", allow_pickle=False)
+    capacitor_points = np.load(
+        "jtwpa_design/cells/chips/npy/arranged_capacitor_points.npy", allow_pickle=False
+    )
     path1, path2 = create_bridge_paths(capacitor_points)
     bridge_width = BridgeParams().width
     s = gf.Section(width=bridge_width, offset=0, layer=LAYER.AIR_BRIDGE)
@@ -322,7 +322,7 @@ def spiral_chip(params: SpiralParams = SpiralParams()) -> gf.Component:
     marker_2.move((marker_coordinate, marker_coordinate))
     unprocessed_ground = _unprocessed_ground(size=params.chip_size - DicingParams().width)
     if params.include_dicing:
-        c << dicing(**DicingParams().to_kwargs())
+        c << gf.import_gds("jtwpa_design/cells/chips/gds_components/six_mm_chip_dicing.gds")
     jtwpa_line_ref.connect("center", unprocessed_ground.ports["center"])
     ground = gf.boolean(
         A=unprocessed_ground,

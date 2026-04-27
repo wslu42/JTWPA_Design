@@ -35,9 +35,7 @@ def _corner_markers(
 
 
 @gf.cell
-def twenty_five_mm_chip(
-    id_list: list[str],
-) -> gf.Component:
+def twenty_five_mm_chip(spiral_id_list: list[str], test_id_list: list[str]) -> gf.Component:
     c = gf.Component()
     temp = gf.Component()
 
@@ -55,13 +53,15 @@ def twenty_five_mm_chip(
         (-chip_coordinate, chip_coordinate),
         (0, chip_coordinate),
     ]
-    for point in test_chip_points:
-        test_chip_ref = temp << test_chip(params=TestParams(include_dicing=False))
-        test_chip_ref.move(point)
+    for i in range(len(test_chip_points)):
+        test_chip_ref = temp << test_chip(
+            params=TestParams(test_id=test_id_list[i], include_dicing=False),
+        )
+        test_chip_ref.move(test_chip_points[i])
 
     for i in range(len(spiral_chip_points)):
         spiral_chip_ref = temp << spiral_chip(
-            params=SpiralParams(chip_id=id_list[i], include_dicing=False)
+            params=SpiralParams(chip_id=spiral_id_list[i], include_dicing=False)
         )
         spiral_chip_ref.move(spiral_chip_points[i])
 

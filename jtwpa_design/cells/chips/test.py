@@ -1,6 +1,5 @@
 import gdsfactory as gf
 
-from jtwpa_design.cells.components.dicing import dicing
 from jtwpa_design.cells.components.marker import marker
 from jtwpa_design.cells.components.rectangle import rectangle
 from jtwpa_design.cells.components.text_id import text_id
@@ -48,7 +47,7 @@ def test_chip(params: TestParams = TestParams()) -> gf.Component:
     )
     c.add_ref(ground)
     if params.include_dicing:
-        c << dicing(**DicingParams().to_kwargs())
+        c << gf.import_gds("jtwpa_design/cells/chips/gds_components/six_mm_chip_dicing.gds")
     c.flatten()
 
     return c
