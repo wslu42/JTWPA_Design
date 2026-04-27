@@ -1,0 +1,43 @@
+LayerViews:
+  Metal:
+    group_members:
+      MAIN_METAL:
+        layer: [1, 0]
+        layer_in_name: true
+        width: 1
+        hatch_pattern: solid
+        color: "#88E6DA"
+
+  Airbridge:
+    hatch_pattern: lightly right-hatched
+    group_members:
+      AIR_BRIDGE_CONTACT:
+        layer: [3, 0]
+        layer_in_name: true
+        width: 1
+        hatch_pattern: solid
+        color: "#BDB3FF"
+      AIR_BRIDGE:
+        layer: [3, 1]
+        layer_in_name: true
+        width: 1
+        hatch_pattern: solid
+        color: "#FFD36F"
+
+  Junction:
+    hatch_pattern: lightly right-hatched
+    group_members:
+      JJ:
+        layer: [2, 0]
+        layer_in_name: true
+        width: 1
+        hatch_pattern: solid
+        color: "#FFB29F"
+
+  DesignIntent:
+    group_members:
+      GROUND_MASK:
+        layer: [1, 1]
+        layer_in_name: true
+        hatch_pattern: strongly cross-hatched sparse
+        color: "#5F748B"

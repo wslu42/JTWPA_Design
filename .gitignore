@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Test / typecheck / coverage caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+# Temporary files
+notebooks/temp/
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+
+# GDSFactory+ / project runtime artifacts
+build/gfp.db
+build/log/
+build/gds/
+build/layerstack/
+build/lyp/
+build/lyrdb/
+
+# Optional local env files
+.env
+.python-version
+*.gds
+
+# Ignored component files
+dicing.py
+arrow.py

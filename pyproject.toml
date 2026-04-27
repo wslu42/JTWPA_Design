@@ -1,0 +1,95 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jtwpa-design"
+version = "0.1.0"
+description = "CP-JTWPA design project"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "doroutes>=0.2.0",
+  "gdsfactoryplus~=1.8.4",
+  "gdsfactory>=9.39.0,<9.40.0",
+  "typing-extensions>=4.12.0",
+  "gplugins[meshwell]>=2.0.1",
+  "jaxellip",
+  "optax",
+  "optuna",
+  "sax[rf]>=0.16.14",
+  "scikit-rf",
+  "scqubits",
+  "sympy",
+  "polars",
+  "pandas[parquet]",
+  "qpdk",
+]
+
+[project.optional-dependencies]
+dev = [
+  "hypothesis",
+  "jsondiff",
+  "jupyter>=1.1.1",
+  "notebook>=7.5.1",
+  "prek",
+  "pytest>=9.0.0",
+  "pytest-cov",
+  "pytest-github-actions-annotate-failures",
+  "pytest_regressions",
+  "pytest-xdist",
+  "ruff>=0.15.11",
+]
+docs = [
+  "jinja2",
+  "jupytext",
+  "linkify-it-py",
+  "matplotlib",
+  "myst-nb>=1.0",
+  "pydata-sphinx-theme",
+  "scipy",
+  "sphinx>=9.0",
+  "sphinx-copybutton",
+  "sphinx-design",
+  "sphinx-github-alerts>=1.0",
+  "sphinxcontrib-bibtex",
+  "sphinxcontrib-bibtex-urn",
+  "sphinxcontrib-katex",
+  "sphinxcontrib-mermaid>=2.0.1",
+  "sphinxcontrib-svgbob",
+]
+
+[tool.uv.sources]
+qpdk = { path = "../quantum-rf-pdk", editable = true }
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = [
+  "build",
+  "notebooks",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["jtwpa_design*"]
+exclude = ["notebooks*", "simulations*", "scripts*", "build*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+jtwpa_design = ["**/*.gds", "**/*.yaml", "**/*.yml", "**/*.json", "**/*.lyp", "**/*.lyt"]
+
+[tool.gdsfactoryplus.pdk]
+name = "jtwpa_design"
+
+[tool.gdsfactoryplus.sim.x]
+name = "f"
+min = 1
+max = 20
+num = 3000
