@@ -59,6 +59,16 @@ def open_stub_capacitor(
 
     c.add_polygon(
         [
+            (-width / 2 - contact_overlap_x, -contact_pad_height / 2),
+            (width / 2 + contact_overlap_x, -contact_pad_height / 2),
+            (width / 2 + contact_overlap_x, contact_pad_height / 2),
+            (-width / 2 - contact_overlap_x, contact_pad_height / 2),
+        ],
+        layer=LAYER.AIR_BRIDGE,
+    )
+
+    c.add_polygon(
+        [
             (-width / 2 - ground_cap_gap, -length / 2 - ground_cap_gap),
             (width / 2 + ground_cap_gap, -length / 2 - ground_cap_gap),
             (width / 2 + ground_cap_gap, length / 2 + ground_cap_gap),
