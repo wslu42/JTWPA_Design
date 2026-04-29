@@ -1,14 +1,23 @@
+from pydantic import Field
+
 from jtwpa_design.parameters._base import ParameterModel
+from jtwpa_design.parameters.assemblies.jtwpa_line import JTWPALineParams
+from jtwpa_design.parameters.features.chip_frame import ChipFrameParams
+from jtwpa_design.parameters.features.dicing import DicingParams
+from jtwpa_design.parameters.features.label import ChipLabelStyleParams
+from jtwpa_design.parameters.features.marker import MarkerStyleParams
 
 
-class SpiralParams(ParameterModel):
-    chip_size: float = 6000.0
+class SpiralChipParams(ParameterModel):
+    frame: ChipFrameParams = Field(default_factory=ChipFrameParams)
+    line: JTWPALineParams = Field(default_factory=JTWPALineParams)
     wafer_id: str = "W01"
     chip_id: str = "C01"
-    text_size: float = 300.0
-    text_margin: float = 50.0
+
+    label: ChipLabelStyleParams = Field(default_factory=ChipLabelStyleParams)
+
     marker_coordinate: float = 2200.0
-    marker_size: float = 100.0
-    marker_width: float = 4.0
-    marker_boundary: float = 50.0
+    marker: MarkerStyleParams = Field(default_factory=MarkerStyleParams)
+
     include_dicing: bool = True
+    dicing: DicingParams = Field(default_factory=DicingParams)

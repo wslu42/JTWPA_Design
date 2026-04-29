@@ -4,10 +4,8 @@ from jtwpa_design.cells.chips.spiral import spiral_chip
 from jtwpa_design.cells.chips.test import test_chip
 from jtwpa_design.cells.components.marker import marker
 from jtwpa_design.cells.components.rectangle import rectangle
-from jtwpa_design.parameters.chips.spiral import SpiralParams
-from jtwpa_design.parameters.chips.test import TestParams
 from jtwpa_design.parameters.chips.twenty_five_mm_chip import TwentyFiveMMChipParams
-from jtwpa_design.parameters.components.dicing import DicingParams
+from jtwpa_design.parameters.rules import LayoutRules
 from jtwpa_design.tech import LAYER
 
 
@@ -35,11 +33,16 @@ def _corner_markers(
 
 
 @gf.cell
-def twenty_five_mm_chip(spiral_id_list: list[str], test_id_list: list[str]) -> gf.Component:
+def twenty_five_mm_chip(
+    spiral_id_list: list[str],
+    test_id_list: list[str],
+    params: TwentyFiveMMChipParams = TwentyFiveMMChipParams(),
+    rules: LayoutRules = LayoutRules(),
+) -> gf.Component:
     c = gf.Component()
     temp = gf.Component()
 
-    chip_coordinate = SpiralParams().chip_size
+    chip_coordinate = params.spiral_chip.frame.size
     test_chip_points = [
         (-chip_coordinate, -chip_coordinate),
         (chip_coordinate, chip_coordinate),
@@ -55,13 +58,18 @@ def twenty_five_mm_chip(spiral_id_list: list[str], test_id_list: list[str]) -> g
     ]
     for i in range(len(test_chip_points)):
         test_chip_ref = temp << test_chip(
-            params=TestParams(test_id=test_id_list[i], include_dicing=False),
+            params=params.test_chip.model_copy(
+                update={"test_id": test_id_list[i], "include_dicing": False}
+            ),
         )
         test_chip_ref.move(test_chip_points[i])
 
     for i in range(len(spiral_chip_points)):
         spiral_chip_ref = temp << spiral_chip(
-            params=SpiralParams(chip_id=spiral_id_list[i], include_dicing=False)
+            params=params.spiral_chip.model_copy(
+                update={"chip_id": spiral_id_list[i], "include_dicing": False}
+            ),
+            rules=rules,
         )
         spiral_chip_ref.move(spiral_chip_points[i])
 
@@ -69,10 +77,15 @@ def twenty_five_mm_chip(spiral_id_list: list[str], test_id_list: list[str]) -> g
 
     temp << gf.import_gds("jtwpa_design/cells/chips/gds_components/A25mark_250919.gds")
 
-    temp << _corner_markers()
+    temp << _corner_markers(
+        size=params.marker_size,
+        width=params.marker_width,
+        boundary=params.marker_boundary,
+        coordinate=params.marker_coordinate,
+    )
 
     unprocessed_ground = _unprocessed_ground(
-        size=TwentyFiveMMChipParams().chip_size - DicingParams().width
+        size=params.chip_size - params.spiral_chip.dicing.width
     )
 
     _ = gf.boolean(

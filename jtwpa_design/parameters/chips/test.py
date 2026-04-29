@@ -1,13 +1,20 @@
+from pydantic import Field
+
 from jtwpa_design.parameters._base import ParameterModel
+from jtwpa_design.parameters.features.chip_frame import ChipFrameParams
+from jtwpa_design.parameters.features.dicing import DicingParams
+from jtwpa_design.parameters.features.label import ChipLabelStyleParams
+from jtwpa_design.parameters.features.marker import MarkerStyleParams
 
 
-class TestParams(ParameterModel):
-    chip_size: float = 6000.0
+class TestChipParams(ParameterModel):
+    frame: ChipFrameParams = Field(default_factory=ChipFrameParams)
     test_id: str = "T1"
-    text_size: float = 300.0
-    text_margin: float = 50.0
+
+    label: ChipLabelStyleParams = Field(default_factory=ChipLabelStyleParams)
+
     marker_coordinate: float = 2600.0
-    marker_size: float = 100.0
-    marker_width: float = 4.0
-    marker_boundary: float = 50.0
+    marker: MarkerStyleParams = Field(default_factory=MarkerStyleParams)
+
     include_dicing: bool = True
+    dicing: DicingParams = Field(default_factory=DicingParams)

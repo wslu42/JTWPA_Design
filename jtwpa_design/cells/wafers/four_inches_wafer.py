@@ -2,7 +2,8 @@ import gdsfactory as gf
 
 from jtwpa_design.cells.chips.twenty_five_mm_chip import twenty_five_mm_chip
 from jtwpa_design.cells.components.text_id import text_id
-from jtwpa_design.parameters.wafers.wafer import WaferParams
+from jtwpa_design.parameters.rules import LayoutRules
+from jtwpa_design.parameters.wafers.four_inch_wafer import WaferParams
 from jtwpa_design.tech import LAYER
 
 
@@ -33,7 +34,9 @@ def generate_test_chips_id(number: int = 14) -> list[list[str]]:
 
 
 @gf.cell
-def four_inches_wafer() -> gf.Component:
+def four_inches_wafer(
+    params: WaferParams = WaferParams(), rules: LayoutRules = LayoutRules()
+) -> gf.Component:
     c = gf.Component()
 
     spiral_id_list = generate_spiral_chips_id()
@@ -49,17 +52,22 @@ def four_inches_wafer() -> gf.Component:
         (0, 33000),
     ]
     for i in range(len(spiral_id_list)):
-        chip_ref = c << twenty_five_mm_chip(spiral_id_list[i], test_id_list[i])
+        chip_ref = c << twenty_five_mm_chip(
+            spiral_id_list[i],
+            test_id_list[i],
+            params=params.twenty_five_mm_chip,
+            rules=rules,
+        )
         chip_ref.move(chip_points[i])
 
     wafer_id = c << text_id(
-        id="NCU JTWPA " + WaferParams().wafer_id,
-        text_size=WaferParams().text_size,
-        margin=WaferParams().text_margin,
+        id="NCU JTWPA " + params.wafer_id,
+        text_size=params.label.text_size,
+        margin=params.label.text_margin,
     )
-    wafer_id.movey(WaferParams().text_coordinate)
+    wafer_id.movey(params.label.text_coordinate)
 
-    unprocessed_ground = _unprocessed_ground(size=WaferParams().wafer_size)
+    unprocessed_ground = _unprocessed_ground(size=params.wafer_size)
 
     ground = gf.boolean(
         A=unprocessed_ground,
