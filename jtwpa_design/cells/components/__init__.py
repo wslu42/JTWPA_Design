@@ -6,6 +6,7 @@ from jtwpa_design.cells.components.text_id import text_id
 from jtwpa_design.cells.components.twpa_launcher import twpa_launcher
 
 __all__ = [
+    "arrow",
     "open_stub_capacitor",
     "twpa_launcher",
     "JJ1",
@@ -14,5 +15,6 @@ __all__ = [
     "marker",
     "four_marker",
     "rectangle",
+    "dicing",
     "text_id",
 ]

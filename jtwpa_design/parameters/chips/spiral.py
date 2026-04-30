@@ -8,7 +8,6 @@ from jtwpa_design.parameters.features.label import ChipLabelStyleParams
 from jtwpa_design.parameters.features.marker import MarkerStyleParams
 
 
-
 class SpiralChipParams(ParameterModel):
     frame: ChipFrameParams = Field(default_factory=ChipFrameParams)
     line: JTWPALineParams = Field(default_factory=JTWPALineParams)
